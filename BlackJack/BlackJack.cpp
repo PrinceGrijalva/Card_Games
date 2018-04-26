@@ -73,7 +73,6 @@ BlackJack::BlackJack()
 		highestPlayerHand = 0;
 		playerNatural = 0;
 
-		//deck->printDeck();
 
 		//Deal cards to every player and print them out.
 		//Maybe only print out dealers hand------------------------------------------!!!!!
@@ -166,9 +165,8 @@ BlackJack::BlackJack()
 			}
 		}
 
-		//The dealer's sum that needs to be checked and if the dealer got a natural
+		//The dealer's sum that needs to be checked
 		unsigned int dealerSum = playerList[playerList.size() - 1].returnSum();
-		bool dealerNatural = playerList[playerList.size() - 1].getNatural();
 
 		//Check the users against the dealer and determine if they win or lose
 		for (j = 0; j < playerList.size() - 1; j++)
@@ -179,36 +177,21 @@ BlackJack::BlackJack()
 				std::cout << "DEALER WINS over PLAYER" << j + 1 << std::endl;
 				playerList[j].setLosses();
 			}
-			//In this case the user will 2/3 win or 1/3 draw with the dealer
+			//In this case the user can win or draw with dealer
 			else if (21 == playerList[j].returnSum())
 			{
-				if (playerList[j].getNatural())
+				if (21 == dealerSum)
 				{
-					if (dealerNatural)
-					{
-						std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
-						playerList[j].setDraws();
-					}
-					else
-					{
-						std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
-						playerList[j].setWins();
-					}
+					std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
+					playerList[j].setDraws();
 				}
 				else
 				{
-					if (21 == dealerSum)
-					{
-						std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
-						playerList[j].setDraws();
-					}
-					else
-					{
-						std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
-						playerList[j].setWins();
-					}
+					std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
+					playerList[j].setWins();
 				}
 			}
+			//In this case the player can win, draw, or lose to dealer
 			else
 			{
 				if (dealerSum > 21 || playerList[j].returnSum() > dealerSum)
@@ -309,7 +292,8 @@ void BlackJack::dealerTurn(Player & dealer, unsigned int & currentCard)
 	//Dealer must contine until at least 17 is reached
 	//This loop must not be done if all players are busted as there is no point for the dealer to continue
 	//This loop must not be done if no player has a higher hand than the dealers default hand
-	while (dealer.returnSum() < 17 && dealerContinue && dealer.returnSum() < highestPlayerHand)
+	//HAD FORGOTTEN TO SET LAST CHECK AS <=, had it set to <!!!!!!!
+	while (dealer.returnSum() < 17 && dealerContinue && dealer.returnSum() <= highestPlayerHand)
 	{
 		dealer.insertCardToHand((*cardDeck)[currentCard]);
 
