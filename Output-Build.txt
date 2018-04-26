@@ -1,0 +1,6 @@
+﻿1>------ Build started: Project: BlackJack, Configuration: Debug Win32 ------
+1>  DeckShuffle.cpp
+1>  CardDeck.cpp
+1>  Generating Code...
+1>  BlackJack.vcxproj -> C:\Users\Prince\documents\visual studio 2015\Projects\BlackJack\Debug\BlackJack.exe
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
