@@ -4,10 +4,14 @@
 BlackJack::BlackJack()
 {
 	//INITIALIZATION------------------------------
+	dealerSum = 0;
 	errorBlackJack = false;
+	playersBusted = 0;
+	currentPlayerSum = 0;
 	std::string gameInput = "";
 	unsigned int gameNumber = 0;
 	bool gameContinue = true;
+	unsigned int j = 0;
 	bool valid = false;
 	VALIDINPUT::ValidInput validate;
 
@@ -47,11 +51,12 @@ BlackJack::BlackJack()
 		}
 	}
 
-	//This shuffle is needed to shuffle a deck using more than 52 cards.
+	//This calls the Deckshuffle class to shuffle the cards 
 	DECKSHUFFLE::DeckShuffle prep(deck);
 	//Sets up the current card to look at as 0 in vector.
 	currentCard = 0;
-	//Initialize cardDeck as the vector of vectors of unsigned ints
+	//Initialize cardDeck as the vector of vectors of unsigned ints for easier access
+	//Normally the vector of vectors of unsigned ints is a private variable of the CardDeck class.
 	cardDeck = deck.getVectorDeck();
 
 
@@ -61,17 +66,16 @@ BlackJack::BlackJack()
 	playerList.push_back(player1);
 	Player dealer(1);
 	playerList.push_back(dealer);
-	unsigned int j = 0;
 
 	//GAME BEGINS---------------------------------
 	//Game continues as long as player wishes it to and there wasn't an error
 	while (gameContinue == true && 0 == prep.returnError())
 	{
 		//Reset these values everytime a new game starts
-		unsigned int playersBusted = 0;
+		playersBusted = 0;
 		dealerContinue = true;
 		highestPlayerHand = 0;
-		playerNatural = 0;
+		playerHit21 = 0;
 
 
 		//Deal cards to every player and print them out.
@@ -109,12 +113,13 @@ BlackJack::BlackJack()
 			//Dealer's turn
 			if (playerList.size() - 1 == j)
 			{
-				if ( (playersBusted == playerList.size() - 1 || playerNatural == playerList.size() - 1 )
+				if ( (playersBusted == playerList.size() - 1 || playerHit21 == playerList.size() - 1 )
 					&& playerList.size() > 1)
 				{
 					dealerContinue = false;
 				}
 				dealerTurn(playerList[j], currentCard);
+				currentPlayerSum = playerList[j].returnSum();
 
 				std::cout << "DEALER TOTAL: ";
 			}
@@ -122,13 +127,14 @@ BlackJack::BlackJack()
 			else
 			{
 				yourTurn(playerList[j], currentCard);
-				if (playerList[j].returnSum() > 21)
+				currentPlayerSum = playerList[j].returnSum();
+				if (currentPlayerSum > 21)
 				{
 					playersBusted += 1;
 				}
-				else if (highestPlayerHand < playerList[j].returnSum())
+				else if (highestPlayerHand < currentPlayerSum)
 				{
-					highestPlayerHand = playerList[j].returnSum();
+					highestPlayerHand = currentPlayerSum;
 				}
 				else
 				{
@@ -137,14 +143,14 @@ BlackJack::BlackJack()
 				std::cout << "PLAYER" << j + 1 << " TOTAL: ";
 
 				//Check if player has got a natural
-				if (playerList[j].getNatural())
+				if (playerList[j].getNatural() || 21 == currentPlayerSum)
 				{
-					playerNatural += 1;
+					playerHit21 += 1;
 				}
 			}
 
 			//Let the player(s) know their total(s)
-			if (21 == playerList[j].returnSum())
+			if (21 == currentPlayerSum)
 			{
 				if (playerList[j].getNatural())
 				{
@@ -155,51 +161,61 @@ BlackJack::BlackJack()
 					std::cout << "SOFT BLACKJACK" << std::endl << std::endl;
 				}
 			}
-			else if (21 < playerList[j].returnSum())
+			else if (21 < currentPlayerSum)
 			{
-				std::cout << "BUST" << std::endl << std::endl;
+				std::cout << currentPlayerSum << " - BUST" << std::endl << std::endl;
 			}
 			else
 			{
-				std::cout << playerList[j].returnSum() << std::endl << std::endl;
+				std::cout << currentPlayerSum << std::endl << std::endl;
 			}
 		}
 
 		//The dealer's sum that needs to be checked
-		unsigned int dealerSum = playerList[playerList.size() - 1].returnSum();
+		dealerSum = playerList[playerList.size() - 1].returnSum();
 
 		//Check the users against the dealer and determine if they win or lose
 		for (j = 0; j < playerList.size() - 1; j++)
 		{
+			//Set player hand sum once and check it multiple times.
+			currentPlayerSum = playerList[j].returnSum();
 			//In this case the user will always lose as they have busted;gone over 21
-			if (playerList[j].returnSum() > 21)
+			if (currentPlayerSum > 21)
 			{
 				std::cout << "DEALER WINS over PLAYER" << j + 1 << std::endl;
 				playerList[j].setLosses();
 			}
 			//In this case the user can win or draw with dealer
-			else if (21 == playerList[j].returnSum())
+			else if (21 == currentPlayerSum)
 			{
-				if (21 == dealerSum)
+				if (playerList[j].getNatural())
 				{
-					std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
-					playerList[j].setDraws();
+					std::cout << "PLAYER" << j + 1 << "'S NATURAL WINS over DEALER" << std::endl;
+					playerList[j].setWins();
 				}
 				else
 				{
-					std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
-					playerList[j].setWins();
+					if (21 == dealerSum)
+					{
+						std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
+						playerList[j].setDraws();
+					}
+					else
+					{
+						std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
+						playerList[j].setWins();
+					}
 				}
 			}
 			//In this case the player can win, draw, or lose to dealer
 			else
 			{
-				if (dealerSum > 21 || playerList[j].returnSum() > dealerSum)
+				if (dealerSum > 21 || currentPlayerSum > dealerSum)
 				{
 					std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
 					playerList[j].setWins();
 				}
-				else if (playerList[j].returnSum() == dealerSum)
+				else if (currentPlayerSum == dealerSum)
 				{
 					std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
 					playerList[j].setDraws();
@@ -278,13 +294,12 @@ BlackJack::~BlackJack()
 
 void BlackJack::dealerTurn(Player & dealer, unsigned int & currentCard)
 {
-	unsigned int cardHit = 0;
-
+	unsigned int dealerSum = dealer.returnSum();
 	std::cout << "DEALER's TURN:" << std::endl;
 	dealer.printHand();
 
 	//Set that the dealer got a natural 21
-	if (21 == dealer.returnSum())
+	if (21 == dealerSum)
 	{
 		dealer.setNatural();
 	}
@@ -293,36 +308,33 @@ void BlackJack::dealerTurn(Player & dealer, unsigned int & currentCard)
 	//This loop must not be done if all players are busted as there is no point for the dealer to continue
 	//This loop must not be done if no player has a higher hand than the dealers default hand
 	//HAD FORGOTTEN TO SET LAST CHECK AS <=, had it set to <!!!!!!!
-	while (dealer.returnSum() < 17 && dealerContinue && dealer.returnSum() <= highestPlayerHand)
+	while (dealerSum < 17 && dealerContinue && dealerSum <= highestPlayerHand)
 	{
 		dealer.insertCardToHand((*cardDeck)[currentCard]);
-
 		currentCard += 1;
 		dealer.printHand();
+		dealerSum = dealer.returnSum();
 	}
 }
 
 void BlackJack::yourTurn(Player & currentPlayer, unsigned int & currentCard)
 {
+	bool answer = true;
 	unsigned int userInput = 0;
+	unsigned int curPlayerSum = currentPlayer.returnSum();
+	VALIDINPUT::ValidInput validate;
 
 	std::cout << "PLAYER" << currentPlayer.getPlayerNum() << "'s TURN:" << std::endl;
 	currentPlayer.printHand();
 
-	//Hit your hand, use currentCard here
-	unsigned int cardHit = 0;
-
-	VALIDINPUT::ValidInput validate;
-	bool answer = true;
-
 	//Set that the player got a natural 21
-	if (21 == currentPlayer.returnSum())
+	if (21 == curPlayerSum)
 	{
 		currentPlayer.setNatural();
 	}
 
 	//USER_INPUT2-------------------------
-	while (answer && currentPlayer.returnSum() < 21)
+	while (answer && curPlayerSum < 21)
 	{
 		//Reset userInput just in case
 		//answer = "";
@@ -330,13 +342,10 @@ void BlackJack::yourTurn(Player & currentPlayer, unsigned int & currentCard)
 		answer = validate.validStrYesNo();
 		if (answer)
 		{
-			//std::cout << "DEALER: " << std::endl << "[" << values[deck.vectorDeck[x][2]] << " of "
-			//	<< suits[deck.vectorDeck[x][1]] << "] ";
-
-			currentPlayer.insertCardToHand((*cardDeck)[currentCard]);
-			
+			currentPlayer.insertCardToHand((*cardDeck)[currentCard]);	
 			currentCard += 1;
 			currentPlayer.printHand();
+			curPlayerSum = currentPlayer.returnSum();
 		}
 		//std::cout << std::endl << "Current Player total: " << currentPlayer.returnSum() << std::endl;
 	}

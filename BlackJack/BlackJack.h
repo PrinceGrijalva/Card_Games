@@ -26,8 +26,11 @@ private:
 	bool dealerContinue;
 	bool errorBlackJack;
 	unsigned int currentCard;
+	unsigned int dealerSum;
 	unsigned int highestPlayerHand;
-	unsigned int playerNatural;
+	unsigned int playerHit21;
+	unsigned int currentPlayerSum;
+	unsigned int playersBusted;
 	CARDDECK::CardDeck deck;
 	std::vector<Player> playerList;
 	std::vector< std::vector <unsigned int> > * cardDeck;
