@@ -25,7 +25,7 @@ namespace DECKSHUFFLE
 	public:
 		explicit DeckShuffle(CARDDECK::CardDeck & deck);
 		DeckShuffle();
-		unsigned int returnError() { return deckShuffleError; }				//Inline function, Getter
+		unsigned int returnError() const { return deckShuffleError; }				//Inline function, Getter
 		void shuffleDeck();
 		void splitDeck(unsigned int splitsParam = 1);
 		void zipperShuffle();

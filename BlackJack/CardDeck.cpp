@@ -7,7 +7,7 @@ namespace CARDDECK
 	//this object.
 	CardDeck::CardDeck(unsigned int decks)
 	{
-		//numOfDecks should never be less than 1 with this constructor
+		//numOfDecks should never be less than 1 with this condition
 		if (decks > 0)
 		{	numOfDecks = decks;}
 		else

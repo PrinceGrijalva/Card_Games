@@ -8,7 +8,6 @@ BlackJack::BlackJack()
 	errorBlackJack = false;
 	playersBusted = 0;
 	currentPlayerSum = 0;
-	std::string gameInput = "";
 	unsigned int gameNumber = 0;
 	bool gameContinue = true;
 	unsigned int j = 0;

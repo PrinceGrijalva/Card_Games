@@ -6,7 +6,6 @@ namespace LETSPLAY
 	LetsPlay::LetsPlay()
 	{
 		//INITIALIZATION----------------------------
-		gameList = { "Quit","BlackJack","Poker" };
 		std::string nameOfGame = "";
 		unsigned int numberOfGame = 0;
 		bool error = false;
