@@ -23,6 +23,8 @@ namespace DECKSHUFFLE
 		unsigned int cardSize;
 		void splitDeck(unsigned int splitsParam = 1);
 		void zipperShuffle();
+		//DeckShuffle(DeckShuffle & pDeckShuffle);									//Copy Constructor
+		//DeckShuffle & operator=(DeckShuffle & pDeckShuffle);						//Assignment Operator Overload
 
 	public:
 		explicit DeckShuffle(CARDDECK::CardDeck & deck);
