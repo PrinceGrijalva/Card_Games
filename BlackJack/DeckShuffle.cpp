@@ -2,7 +2,7 @@
 
 namespace DECKSHUFFLE
 {
-	//Constructor; cardDeck to become alias of deck for the DeckShuffle function
+	//Constructor; cardDeck to point to data of deck for use in the DeckShuffle function
 	DeckShuffle::DeckShuffle(CARDDECK::CardDeck & deck)
 	{
 		//This is an error flag for use in BlackJack class
@@ -63,12 +63,12 @@ namespace DECKSHUFFLE
 	*IF USING A LARGE DATA SET; AVG CASE LOOKS BETTER*/
 
 	//Pick a random card from the deck at any position except the first one, random = 1 - n-1;
-	// >Break cards into two groups, every card < random number and every card a >= random number.
-	// >Move 1st group to the rhs of all of the 2nd group. Emulates cutting the cards down a pivot.
-	// >Can do multiple successive cuts if asked but won't do more than size of deck cuts.
-	// >Can cut the lhs by doing the process over again as long as the number of cards remaining
-	//	is > 1. Any splits left over not made by the above process go on to split the whole deck
-	//	repeating the process.
+	//		>Break cards into two groups, every card < random number and every card a >= random number.
+	//		>Move 1st group to the rhs of all of the 2nd group. Emulates cutting the cards down a pivot.
+	//		>Can do multiple successive cuts if asked but won't do more than size of deck cuts.
+	//		>Can cut the lhs by doing the process over again as long as the number of cards remaining
+	//		is > 1. Any splits left over not made by the above process go on to split the whole deck
+	//		repeating the process.
 	// COMPLETED AND WORKS------------------------------------------------------------------------------------
 	void DeckShuffle::splitDeck(unsigned int splitsParam)
 	{
