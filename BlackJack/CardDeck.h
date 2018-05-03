@@ -33,7 +33,7 @@ namespace CARDDECK
 		explicit CardDeck(unsigned int decks);
 		CardDeck();
 		void createPlayingCards();
-		unsigned int getTotalCards() { return totalCards; }									// Inline function
+		unsigned int getTotalCards() const { return totalCards; }							// Inline function
 		std::vector< std::vector <unsigned int> >* getVectorDeck() { return &vectorDeck; }	// Inline function
 		void printDeck() const;
 	};
