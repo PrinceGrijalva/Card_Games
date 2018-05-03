@@ -88,12 +88,12 @@ namespace VALIDINPUT
 				}
 				else
 				{
-					std::cout << "This is not Y/N. Try again: " << std::endl;
+					std::cout << "Please enter y or n: " << std::endl;
 				}
 			}
 			else
 			{
-				std::cout << "This too long of an input. Try again: " << std::endl;
+				std::cout << "This too long of an input. Please enter y or n: " << std::endl;
 			}
 		}
 	}

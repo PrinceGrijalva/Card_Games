@@ -1,6 +1,6 @@
 #include "BlackJack.h"
 
-//Construct the game black jack -> Create cards , Play game;
+//Default Constructor of the game black jack -> Create cards ,Shuffle Cards, Play game;
 BlackJack::BlackJack()
 {
 	//INITIALIZATION------------------------------
@@ -9,15 +9,12 @@ BlackJack::BlackJack()
 	playersBusted = 0;
 	currentPlayerSum = 0;
 	std::string gameInput = "";
-	unsigned int gameNumber = 0;
+	unsigned int numOfDecks = 0;
 	bool gameContinue = true;
 	unsigned int j = 0;
-	bool valid = false;
 	VALIDINPUT::ValidInput validate;
 
 	std::cout << std::endl << "Welcome to BlackJack!" << std::endl << std::endl;
-
-	//USER_INPUT1---------------------------------
 	std::cout << "Would you like there to be 1 deck or 4 decks?" << std::endl;
 
 	while (true)
@@ -26,22 +23,23 @@ BlackJack::BlackJack()
 		//Would need to use:  validate.validIntInput(gameNumber,2);
 		//Check for 0 may be necessary if including any number of user defined decks.
 		std::cout << "Please enter 1 or 4: " << std::endl;
-		if (validate.validIntInput(gameNumber, 4))
+		//USER_INPUT1---------------------------------
+		if (validate.validIntInput(numOfDecks, 4))
 		{
 			//Use user input to create the proper deck object
-			if (0 == gameNumber)
+			if (0 == numOfDecks)
 			{
 				std::cout << "Cannot have 0 decks. Enter a different 2 digit number." << std::endl 
 					<< std::endl;
 			}
-			else if (1 == gameNumber)
+			else if (1 == numOfDecks)
 			{
-				deck = CARDDECK::CardDeck(gameNumber);
+				deck = CARDDECK::CardDeck(numOfDecks);
 				break;
 			}
-			else if (4 == gameNumber)
+			else if (4 == numOfDecks)
 			{
-				deck = CARDDECK::CardDeck(gameNumber);
+				deck = CARDDECK::CardDeck(numOfDecks);
 				break;
 			}
 			else
@@ -149,7 +147,7 @@ BlackJack::BlackJack()
 				}
 			}
 
-			//Let the player(s) know their total(s)
+			//Let the player(s) and dealer know their total(s)
 			if (21 == currentPlayerSum)
 			{
 				if (playerList[j].getNatural())
@@ -171,7 +169,7 @@ BlackJack::BlackJack()
 			}
 		}
 
-		//The dealer's sum that needs to be checked
+		//Set the dealer's sum to be checked against player's sums
 		dealerSum = playerList[playerList.size() - 1].returnSum();
 
 		//Check the users against the dealer and determine if they win or lose
@@ -227,41 +225,35 @@ BlackJack::BlackJack()
 					playerList[j].setLosses();
 				}
 			}
-			//All players should be reset
+			//All human players should be reset
 			playerList[j].playerReset();
 		}
 
 		//Reset the dealer as well, previously missed this step!
 		playerList[playerList.size() - 1].playerReset();
 
-		//USER_INPUT3------------------------------
 		//Play Again?
-		while (true)
+		std::cout << std::endl;
+		//Reset userInput just in case
+		bool answer = true;
+		std::cout << "Play Again?  Enter y or n: " << std::endl;
+		//USER_INPUT3------------------------------
+		answer = validate.validStrYesNo();
+		if (answer)
 		{
-			std::cout << std::endl;
-			//Reset userInput just in case
-			bool answer = true;
-			std::cout << "Play Again?  Enter y or n: " << std::endl;
-			answer = validate.validStrYesNo();
-			if (answer)
+			gameContinue = true;
+			//If there is one deck or when using 4 decks and only 52 cards remain reshuffle the
+			//whole lot of cards. The choice of less than 52 cards remaining is arbitrary;
+			//can be changed.
+			if (52 == deck.getTotalCards() || currentCard > deck.getTotalCards() - 52)
 			{
-				gameContinue = true;
-				//If there is one deck or when using 4 decks and only 52 cards remain reshuffle the
-				//whole lot of cards. The choice of less than 52 cards remaining is arbitrary;
-				//can be changed.
-				if (52 == deck.getTotalCards() || currentCard > deck.getTotalCards() - 52)
-				{
-					currentCard = 0;
-					prep.shuffleDeck();
-					//deck.printDeck();
-				}
-				break;
+				currentCard = 0;
+				prep.shuffleDeck();
 			}
-			else 
-			{
-				gameContinue = false;
-				break;
-			}
+		}
+		else 
+		{
+			gameContinue = false;
 		}
 	}
 
@@ -292,6 +284,7 @@ BlackJack::~BlackJack()
 	//std::cout  << "Called DESTRUCTOR" << std::endl << std::endl;
 }
 
+//Dealer's turn to hit or stand based on certain rules
 void BlackJack::dealerTurn(Player & dealer, unsigned int & currentCard)
 {
 	unsigned int dealerSum = dealer.returnSum();
@@ -317,6 +310,7 @@ void BlackJack::dealerTurn(Player & dealer, unsigned int & currentCard)
 	}
 }
 
+//Player's turn to hit or stand based on their input and sum
 void BlackJack::yourTurn(Player & currentPlayer, unsigned int & currentCard)
 {
 	bool answer = true;
@@ -333,12 +327,12 @@ void BlackJack::yourTurn(Player & currentPlayer, unsigned int & currentCard)
 		currentPlayer.setNatural();
 	}
 
-	//USER_INPUT2-------------------------
 	while (answer && curPlayerSum < 21)
 	{
 		//Reset userInput just in case
 		//answer = "";
 		std::cout << "Hit?  Enter y or n: " << std::endl;
+		//USER_INPUT2-------------------------
 		answer = validate.validStrYesNo();
 		if (answer)
 		{
