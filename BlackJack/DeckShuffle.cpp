@@ -138,7 +138,7 @@ namespace DECKSHUFFLE
 				}
 
 				//Copy split deck values into cardDeck variable vectorDeck used in rest of program
-				(*cardDeck) = splitDeck;
+				*cardDeck = splitDeck;
 			}
 		}
 		return;
@@ -216,7 +216,7 @@ namespace DECKSHUFFLE
 			}
 
 			//Make zippered deck copy to the deck used in rest of program.
-			(*cardDeck) = zipperDeck;
+			*cardDeck = zipperDeck;
 		}
 		return;
 	}

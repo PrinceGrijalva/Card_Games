@@ -43,6 +43,10 @@ namespace LETSPLAY
 				{	//Poker selected:
 					std::cout << "Poker to be available later." << std::endl;
 				}
+				else if (3 == numberOfGame)
+				{	//War selected:
+					std::cout << "War to be available later." << std::endl;
+				}
 				else if (0 == numberOfGame)
 				{	//Quit selected:
 					quit = true;
