@@ -32,7 +32,7 @@ namespace DECKSHUFFLE
 				//Do not shuffle deck
 			}
 			//Print deck out to check that it's shuffled.
-			//deck.printDeck();
+			deck.printDeck();
 		}
 	}
 
@@ -171,14 +171,16 @@ namespace DECKSHUFFLE
 			std::vector <unsigned int> errorCard(3, -1);
 
 			unsigned int halfDeck = cardSize / 2;
-			unsigned int i = 0, j = 0;
+			unsigned int i = 0;
+			unsigned int j = halfDeck;
 
 			//Loop should go through all one half of the deck, smallest one, zippering those cards that
-			//make it and just adding the rest that didn't make it into the back of the deck.
+			//make it and just adding the rest that didn't make it into the back of the deck. 
+			//	> Iterates a little more than halfDeck times depending on cards not successfully zippered.
 			for (unsigned int k = 0; k < cardSize; k++)
 			{
 				//Deck still needs to be zippered if true
-				if (i < halfDeck && (halfDeck + j) < cardSize)
+				if (i < halfDeck)
 				{
 					//Call random in loop
 					random = (rand() % 20) + 1;
@@ -188,30 +190,17 @@ namespace DECKSHUFFLE
 					// 19/20 chance to zipper
 					if (random < 20)
 					{
-						zipperDeck[k + 1] = (*cardDeck)[halfDeck + j];	//Insert 2nd half card into zipperDeck
+						zipperDeck[k + 1] = (*cardDeck)[j];	//Insert 2nd half card into zipperDeck
 						j++;
 						k++;
 					}
 					i++;
 				}
-				// i - halfDeck needs to be added to the back of the new zippered deck.
-				else if (i < halfDeck)
-				{
-					zipperDeck[k] = (*cardDeck)[i];
-					i++;
-				}
 				// halfDeck - cardSize needs to be added to the back of the new deck.
-				else if ((halfDeck + j) < cardSize)
-				{
-					zipperDeck[k] = (*cardDeck)[halfDeck + j];
-					j++;
-				}
-				// ELSE there was a problem, so show this with a -1, can be checked
 				else
 				{
-					std::cout << std::endl << "ERROR in for loop of zipperShuffle" << std::endl;
-					zipperDeck[k] = errorCard;
-					deckShuffleError = 1;
+					zipperDeck[k] = (*cardDeck)[j];
+					j++;
 				}
 			}
 
