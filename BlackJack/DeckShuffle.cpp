@@ -2,22 +2,26 @@
 
 namespace DECKSHUFFLE
 {
-	//Constructor; cardDeck to point to data of deck for use in the DeckShuffle function
+	//Constructor; cardDeck to point to data of deck for use in the DeckShuffle function.
 	DeckShuffle::DeckShuffle(CARDDECK::CardDeck & deck)
 	{
-		//This is an error flag for use in BlackJack class
+		//This is an error flag for use in BlackJack class.
 		deckShuffleError = 0;
 		if (0 == deck.getTotalCards())
 		{
-			std::cout << "cardDeck ERROR: cardDeck == NULL" << std::endl;
-			//Set error flag so program does not continue as normal
+			std::cout << "cardDeck ERROR: cardDeck was default constructed to empty." << std::endl;
+			//Set error flag so program does not continue as normal.
 			deckShuffleError = 1;
+		}
+		else if (1 == deck.getTotalCards())
+		{
+			//Do nothing because deck of 1 can't be shuffled.
 		}
 		else
 		{
 			VALIDINPUT::ValidInput validate;
 
-			//cardDeck = address of deck; cardDeck is a ptr to CardDeck
+			//cardDeck = address of deck; cardDeck is a ptr to CardDeck.
 			cardDeck = deck.getVectorDeck();
 			cardSize = cardDeck->size();
 
@@ -29,7 +33,7 @@ namespace DECKSHUFFLE
 			}
 			else
 			{
-				//Do not shuffle deck
+				//Do not shuffle deck.
 			}
 			//Print deck out to check that it's shuffled.
 			deck.printDeck();
@@ -40,11 +44,11 @@ namespace DECKSHUFFLE
 	DeckShuffle::DeckShuffle()
 	{
 		//Should not be using default constructor because there is no deck to shuffle
-		//and error set to 1
+		//and error set to 1.
 		deckShuffleError = 1;
 	}
 
-	//Shuffle a deck that is being used by using functions in this class
+	//Shuffle a deck that is being used by using functions in this class.
 	void DeckShuffle::shuffleDeck()
 	{
 		splitDeck();
@@ -72,15 +76,16 @@ namespace DECKSHUFFLE
 	// COMPLETED AND WORKS------------------------------------------------------------------------------------
 	void DeckShuffle::splitDeck(unsigned int splitsParam)
 	{
-		//Always initialize variables in c++
-		unsigned int numOfSplits = 0;			//How many deck splits
-		unsigned int randPivotCard = 0;			//Where to split the deck in two
+		//Always initialize variables in c++.
 		unsigned int i = 0;						//Iterator variable
 		unsigned int numOfCards = 0;			//Number of cards left to split after a successful split
+		unsigned int numOfSplits = 0;			//How many deck splits
+		unsigned int randPivotCard = 0;			//Where to split the deck in two
 
 		//Seed rand with current time in seconds.
 		srand((int)time(0));
 
+		//Figure out the number of splits to do or if there is an error.
 		if (splitsParam < 0)
 		{
 			std::cout << "splitsParam ERROR: negative number" << std::endl << std::endl;
@@ -89,7 +94,7 @@ namespace DECKSHUFFLE
 		}
 		else if (0 == splitsParam)
 		{
-			//Random number of splits from 1 - n-1
+			//Random number of splits from 1 - n-1.
 			numOfSplits = (rand() % (cardSize - 1)) + 1; // 1 - n-1
 		}
 		else
@@ -104,10 +109,10 @@ namespace DECKSHUFFLE
 			numOfSplits = splitsParam;
 		}
 
-		//Contine if cardSize is managable and there are no errors from splitParam; 0 case is handled by constructor
+		//Continue if cardSize is managable and there are no errors from splitParam; 0 case is handled by constructor.
 		if (cardSize > 1 && 0 == deckShuffleError)
 		{
-			//New vector holding split Deck intialized to all 0s
+			//New vector holding split Deck intialized to all 0s.
 			std::vector< std::vector <unsigned int> > splitDeck(cardSize, std::vector<unsigned int>(3, 0));
 
 			while (numOfSplits > 0)
@@ -119,7 +124,7 @@ namespace DECKSHUFFLE
 
 				while (numOfCards > 1 && numOfSplits > 0)
 				{
-					//Card to pivot around
+					//Card to pivot around.
 					randPivotCard = (rand() % (numOfCards - 1)) + 1 + randPivotCard;	// 1 <-> cardSize-1			
 
 					for (i; i < randPivotCard; i++)
@@ -131,13 +136,13 @@ namespace DECKSHUFFLE
 					numOfSplits--;
 				}
 
-				//Fill in deck with cards that weren't split
+				//Fill in deck with cards that weren't split.
 				for (i; i < cardSize; i++)
 				{
 					splitDeck[i - randPivotCard] = (*cardDeck)[i];
 				}
 
-				//Copy split deck values into cardDeck variable vectorDeck used in rest of program
+				//Copy split deck values into cardDeck variable vectorDeck used in rest of program.
 				*cardDeck = splitDeck;
 			}
 		}
@@ -158,13 +163,14 @@ namespace DECKSHUFFLE
 		//Seed rand with current time in seconds.
 		srand((int)time(0));
 		int random = 0;
+		unsigned int k = 0;
 
-		//This case is bad and shuffle should not continue; 0 case is handled by constructor
+		//This case is bad and shuffle should not continue; 0 case is handled by constructor.
 		if (1 == cardSize)
 		{
-			//Do Nothing, just exit since this shuffle is impossible
+			//Do Nothing, just exit since this shuffle is impossible.
 		}
-		//This case is good and shuffle should continue
+		//This case is good and shuffle should continue.
 		else if (cardSize > 1)
 		{
 			std::vector< std::vector <unsigned int> > zipperDeck(cardSize, std::vector<unsigned int>(3, 0));
@@ -177,12 +183,12 @@ namespace DECKSHUFFLE
 			//Loop should go through all one half of the deck, smallest one, zippering those cards that
 			//make it and just adding the rest that didn't make it into the back of the deck. 
 			//	> Iterates a little more than halfDeck times depending on cards not successfully zippered.
-			for (unsigned int k = 0; k < cardSize; k++)
+			for (k = 0; k < cardSize; k++)
 			{
-				//Deck still needs to be zippered if true
+				//Deck still needs to be zippered if true.
 				if (i < halfDeck)
 				{
-					//Call random in loop
+					//Call random in loop.
 					random = (rand() % 20) + 1;
 					//std::cout << "Random #" << i << ":" << j << " : "<< random << std::endl;
 
