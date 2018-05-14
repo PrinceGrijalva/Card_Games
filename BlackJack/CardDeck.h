@@ -23,16 +23,16 @@ namespace CARDDECK
 {
 	class CardDeck
 	{
-	private:
-		
+	private:	
 		unsigned int numOfDecks;
 		unsigned int totalCards;
 		std::vector< std::vector <unsigned int> > vectorDeck;
 
+		void createPlayingCards();
+
 	public:
 		explicit CardDeck(unsigned int decks);
 		CardDeck();
-		void createPlayingCards();
 		unsigned int getTotalCards() const { return totalCards; }							// Inline function
 		std::vector< std::vector <unsigned int> >* getVectorDeck() { return &vectorDeck; }	// Inline function
 		void printDeck() const;

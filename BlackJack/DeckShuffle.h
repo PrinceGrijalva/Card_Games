@@ -21,6 +21,7 @@ namespace DECKSHUFFLE
 		std::vector< std::vector <unsigned int> > * cardDeck;
 		unsigned int deckShuffleError;
 		unsigned int cardSize;
+
 		void splitDeck(unsigned int splitsParam = 1);
 		void zipperShuffle();
 
