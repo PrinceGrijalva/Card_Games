@@ -19,11 +19,11 @@ BlackJack::BlackJack()
 	while (true)
 	{
 		//This can be opened up to include any number of decks; would suggest at most a 2 digit number of decks
-		//Would need to use:  validate.validIntInput(gameNumber,2);
+		//Would need to use:  validate.validIntInput(numOfDecks,2);
 		//Check for 0 may be necessary if including any number of user defined decks.
 		std::cout << "Please enter 1 or 4: " << std::endl;
 		//USER_INPUT1---------------------------------
-		if (validate.validIntInput(numOfDecks, 4))
+		if (validate.validIntInput(numOfDecks, 2))
 		{
 			//Use user input to create the proper deck object
 			if (0 == numOfDecks)
@@ -31,12 +31,7 @@ BlackJack::BlackJack()
 				std::cout << "Cannot have 0 decks. Enter a different 2 digit number." << std::endl 
 					<< std::endl;
 			}
-			else if (1 == numOfDecks)
-			{
-				deck = CARDDECK::CardDeck(numOfDecks);
-				break;
-			}
-			else if (4 == numOfDecks)
+			else if (1 == numOfDecks || 4 == numOfDecks)
 			{
 				deck = CARDDECK::CardDeck(numOfDecks);
 				break;
@@ -48,7 +43,7 @@ BlackJack::BlackJack()
 		}
 	}
 
-	//This calls the Deckshuffle class to shuffle the cards 
+	//This creates an object of the Deckshuffle class and then shuffles the cards 
 	DECKSHUFFLE::DeckShuffle prep(deck);
 	//Sets up the current card to look at as 0 in vector.
 	currentCard = 0;
@@ -63,6 +58,7 @@ BlackJack::BlackJack()
 	playerList.push_back(player1);
 	Player dealer(1);
 	playerList.push_back(dealer);
+	unsigned int playerListSize = playerList.size();
 
 	//GAME BEGINS---------------------------------
 	//Game continues as long as player wishes it to and there wasn't an error
@@ -75,15 +71,16 @@ BlackJack::BlackJack()
 		playerHit21 = 0;
 
 
-		//Deal cards to every player and print them out.
-		//Maybe only print out dealers hand------------------------------------------!!!!!
-		for (j = 0; j < playerList.size(); j++)
+		//DEAL OUT CARDS---------------------------------
+		//Deal to every player and print them out
+		//Maybe only print out dealers hand-------------------------------!!!!!
+		for (j = 0; j < playerListSize; j++)
 		{
 			//Insert cards into a players hand to be able to track them
 			playerList[j].insertCardToHand((*cardDeck)[currentCard]);
 			playerList[j].insertCardToHand((*cardDeck)[currentCard + 1]);
 
-			if (playerList.size() - 1 == j)
+			if (playerListSize - 1 == j)
 			{
 				//Print out the cards dealt to the dealer.
 				std::cout << "DEALER's HAND: " << std::endl;
@@ -93,7 +90,7 @@ BlackJack::BlackJack()
 			{
 				//Set player number
 				playerList[j].setPlayerNum(j + 1);
-				//Print out the cards dealt to player or ai player	.	
+				//Print out the cards dealt to player or ai player.	
 				//std::cout << "PLAYER " << j + 1 << "'s HAND: " << std::endl;
 				//playerList[j].printHand(0, 0);
 			}
@@ -104,14 +101,15 @@ BlackJack::BlackJack()
 
 		std::cout << "-------------------------------------------" << std::endl << std::endl;
 
-		//Let player(s) go first then the dealer goes
-		for (j = 0; j < playerList.size(); j++)
+		//PLAYER(S) HIT OR STAND---------------------------------
+		//Players go first then the dealer goes
+		for (j = 0; j < playerListSize; j++)
 		{
 			//Dealer's turn
-			if (playerList.size() - 1 == j)
+			if (playerListSize - 1 == j)
 			{
-				if ( (playersBusted == playerList.size() - 1 || playerHit21 == playerList.size() - 1 )
-					&& playerList.size() > 1)
+				if ( (playersBusted == playerListSize - 1 || playerHit21 == playerListSize - 1 )
+					&& playerListSize > 1)
 				{
 					dealerContinue = false;
 				}
@@ -139,7 +137,7 @@ BlackJack::BlackJack()
 				}
 				std::cout << "PLAYER" << j + 1 << " TOTAL: ";
 
-				//Check if player has got a natural
+				//Check if player has got a natural or hit 21.
 				if (playerList[j].getNatural() || 21 == currentPlayerSum)
 				{
 					playerHit21 += 1;
@@ -169,10 +167,11 @@ BlackJack::BlackJack()
 		}
 
 		//Set the dealer's sum to be checked against player's sums
-		dealerSum = playerList[playerList.size() - 1].returnSum();
+		dealerSum = playerList[playerListSize - 1].returnSum();
 
+		//RESULTS---------------------------------
 		//Check the users against the dealer and determine if they win or lose
-		for (j = 0; j < playerList.size() - 1; j++)
+		for (j = 0; j < playerListSize - 1; j++)
 		{
 			//Set player hand sum once and check it multiple times.
 			currentPlayerSum = playerList[j].returnSum();
@@ -229,9 +228,9 @@ BlackJack::BlackJack()
 		}
 
 		//Reset the dealer as well, previously missed this step!
-		playerList[playerList.size() - 1].playerReset();
+		playerList[playerListSize - 1].playerReset();
 
-		//Play Again?
+		//PLAY AGAIN?---------------------------------
 		std::cout << std::endl;
 		//Reset userInput just in case
 		bool answer = true;
@@ -268,7 +267,7 @@ BlackJack::BlackJack()
 	else
 	{
 		//FINAL SCORE-----------------------------------
-		for (j = 0; j < playerList.size() - 1; j++)
+		for (j = 0; j < playerListSize - 1; j++)
 		{
 			std::cout << std::endl << "PLAYER" << j + 1 << " Win:" << playerList[j].getWins()
 				<< " Lose:" << playerList[j].getLosses() << " Draw:"
