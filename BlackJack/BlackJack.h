@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BlackJack_H
+#define BlackJack_H
 
 #include "CardDeck.h"
 #include "DeckShuffle.h"
@@ -44,4 +45,4 @@ public:
 	~BlackJack();
 	bool checkError() { return errorBlackJack; }								//Inline function
 };
-//#endif // !BlackJack_H
+#endif // !BlackJack_H

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CardDeck_H
+#define CardDeck_H
 
 #include <iostream>
 #include <vector>
@@ -39,4 +40,4 @@ namespace CARDDECK
 	};
 }
 
-//#endif // !CardDeck_H
+#endif // !CardDeck_H

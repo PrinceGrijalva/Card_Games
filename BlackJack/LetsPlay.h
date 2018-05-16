@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LetsPlay_H
+#define LetsPlay_H
 
 #include "BlackJack.h"
 
@@ -21,4 +22,4 @@ namespace LETSPLAY
 	};
 }
 
-//#endif // !LetsPlay_H
+#endif // !LetsPlay_H

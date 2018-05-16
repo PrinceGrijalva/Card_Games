@@ -1,4 +1,5 @@
-#pragma once
+#ifndef Player_H
+#define Player_H
 
 #include <iostream>
 #include <vector>
@@ -66,4 +67,4 @@ public:
 	unsigned int returnThatCard(unsigned int i, unsigned int whichHand = 0) const;
 };
 
-//#endif // !Player_H
+#endif // !Player_H

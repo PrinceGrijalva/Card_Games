@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DeckShuffle_H
+#define DeckShuffle_H
 
 #include "CardDeck.h"
 #include "ValidInput.h"
@@ -32,4 +33,4 @@ namespace DECKSHUFFLE
 		void shuffleDeck();
 	};
 }
-//#endif // !DeckShuffle_H
+#endif // !DeckShuffle_H

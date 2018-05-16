@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ValidInput_H
+#define ValidInput_H
 
 #include <iostream>
 #include <sstream>
@@ -23,4 +24,4 @@ namespace VALIDINPUT
 	};
 }
 
-//#endif // !ValidInput_H
+#endif // !ValidInput_H
