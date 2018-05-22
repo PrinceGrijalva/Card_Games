@@ -3,7 +3,7 @@
 
 #include "CardDeck.h"
 #include "DeckShuffle.h"
-#include "Player.h"
+#include "BJPlayer.h"
 #include "ValidInput.h"
 
 #include <sstream>
@@ -34,11 +34,11 @@ private:
 	unsigned int playerHit21;
 	
 	CARDDECK::CardDeck deck;
-	std::vector<Player> playerList;
+	std::vector<BJPlayer> playerList;
 	std::vector< std::vector <unsigned int> > * cardDeck;
  
-	void dealerTurn(Player & dealer, unsigned int & currentCard);
-	void yourTurn(Player & currentPlayer, unsigned int & currentCard);
+	void dealerTurn(BJPlayer & dealer, unsigned int & currentCard);
+	void yourTurn(BJPlayer & currentPlayer, unsigned int & currentCard);
 
 public:
 	BlackJack();

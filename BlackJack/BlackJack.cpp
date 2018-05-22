@@ -59,9 +59,9 @@ BlackJack::BlackJack()
 
 	//EDIT below when two or more players will be used ----------------------------///////////////////////
 	//Will probably need to use new; dynamic memory
-	Player player1;
+	BJPlayer player1;
 	playerList.push_back(player1);
-	Player dealer(1);
+	BJPlayer dealer(1);
 	playerList.push_back(dealer);
 
 	//GAME BEGINS---------------------------------
@@ -280,11 +280,11 @@ BlackJack::BlackJack()
 
 BlackJack::~BlackJack()
 {
-	//std::cout  << "Called DESTRUCTOR" << std::endl << std::endl;
+	//std::cout  << "Called BlackJack DESTRUCTOR" << std::endl << std::endl;
 }
 
 //Dealer's turn to hit or stand based on certain rules
-void BlackJack::dealerTurn(Player & dealer, unsigned int & currentCard)
+void BlackJack::dealerTurn(BJPlayer & dealer, unsigned int & currentCard)
 {
 	unsigned int dealerSum = dealer.returnSum();
 	std::cout << "DEALER's TURN:" << std::endl;
@@ -310,7 +310,7 @@ void BlackJack::dealerTurn(Player & dealer, unsigned int & currentCard)
 }
 
 //Player's turn to hit or stand based on their input and sum
-void BlackJack::yourTurn(Player & currentPlayer, unsigned int & currentCard)
+void BlackJack::yourTurn(BJPlayer & currentPlayer, unsigned int & currentCard)
 {
 	bool answer = true;
 	unsigned int userInput = 0;

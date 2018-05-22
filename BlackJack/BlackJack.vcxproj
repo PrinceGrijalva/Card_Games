@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasePlayer.cpp" />
     <ClCompile Include="BJPlayer.cpp" />
     <ClCompile Include="BlackJack.cpp" />
     <ClCompile Include="CardDeck.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="ValidInput.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasePlayer.h" />
     <ClInclude Include="BJPlayer.h" />
     <ClInclude Include="BlackJack.h" />
     <ClInclude Include="CardDeck.h" />
