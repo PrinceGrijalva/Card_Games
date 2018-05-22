@@ -1,22 +1,23 @@
-#ifndef Player_H
-#define Player_H
+#ifndef BasePlayer_H
+#define BasePlayer_H
 
 #include <iostream>
 #include <vector>
 #include <string>
 
 /*
-* Player class is meant to function as the paradigm for all player classes in any game which is to 
+* BasePlayer class is meant to function as the paradigm for all player classes in any game which is to 
 * be implemented in this group of games. The very first game this class works with is BlackJack and 
 * can be expanded to work with more games. *A simplification may be necessary with a more specific
-* Player class to be derived with inheritance from this base class for all games.
+* BasePlayer class to be derived with inheritance from this base class for all games.
 */
 
-//Constant 4 suits of a standard playing card deck. (INTERNAL LINKAGE)
+
 namespace 
 {
 	const int SUITS_SIZE = 4;
 	const int VALUES_SIZE = 13;
+	//Constant 4 suits of a standard playing card deck. (INTERNAL LINKAGE)
 	const std::string suits[SUITS_SIZE] = { "Spades", "Hearts", "Clubs", "Diamonds" };
 	//Constant 13 values of a standard playing card deck. (INTERNAL LINKAGE)
 	const std::string values[VALUES_SIZE] =
@@ -24,7 +25,7 @@ namespace
 }
 
 
-class Player
+class BasePlayer
 {
 private:
 	std::vector< std::vector <unsigned int> > handOne;
@@ -44,7 +45,7 @@ private:
 	void countCard();
 
 public:
-	Player(unsigned int playerType = 0);
+	BasePlayer(unsigned int playerType = 0);
 
 	//GETTERS
 	bool getNatural() const { return natural; }							//Inline function
@@ -67,4 +68,4 @@ public:
 	unsigned int returnThatCard(unsigned int i, unsigned int whichHand = 0) const;
 };
 
-#endif // !Player_H
+#endif // !BasePlayer_H
