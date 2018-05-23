@@ -5,7 +5,8 @@
 
 /*
 * This class serves the purpose of being the spring board into other game classes based on the 
-* user's selection. Will include many playing card games or other types of card games.
+* user's selection. Wil
+l include many playing card games or other types of card games.
 */
 
 namespace

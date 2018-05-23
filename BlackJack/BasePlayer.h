@@ -25,47 +25,38 @@ namespace
 }
 
 
-class BasePlayer
+namespace BASEPLAYER
 {
-private:
-	std::vector< std::vector <unsigned int> > handOne;
-	std::vector< std::vector <unsigned int> > handTwo;
+	class BasePlayer
+	{
+	private:
 
-	unsigned int ai;
-	mutable unsigned int playerClassError;
-	unsigned int handOneSum;
-	unsigned int handTwoSum;
-	unsigned int howManyAces;
-	unsigned int playerNumber;
-	unsigned int draws;
-	unsigned int losses;
-	unsigned int wins;
-	bool natural;
+		unsigned int ai;
+		mutable unsigned int playerClassError;
+		unsigned int playerNumber;
+		unsigned int draws;
+		unsigned int losses;
+		unsigned int wins;
 
-	void countCard();
+	public:
+		BasePlayer(unsigned int playerType = 0);
+		virtual ~BasePlayer();
 
-public:
-	BasePlayer(unsigned int playerType = 0);
+		//GETTERS
+		unsigned int getDraws() const { return draws; }						//Inline function
+		unsigned int getLosses() const { return losses; }					//Inline function
+		unsigned int getWins() const { return wins; }						//Inline function
+		unsigned int getPlayerNum() const { return playerNumber; }			//Inline function
 
-	//GETTERS
-	bool getNatural() const { return natural; }							//Inline function
-	unsigned int getDraws() const { return draws; }						//Inline function
-	unsigned int getLosses() const { return losses; }					//Inline function
-	unsigned int getWins() const { return wins; }						//Inline function
-	unsigned int getPlayerNum() const { return playerNumber; }			//Inline function
+		virtual void playerReset() = 0;
 
-	void insertCardToHand(std::vector <unsigned int> newCard, unsigned int whichHand = 0);
-	void playerReset();
-	void printHand(unsigned int whichHand = 0, unsigned int aiOrNot = 0) const;
-	//SETTERS
-	void setNatural() { natural = true; }								//Inline function
-	void setDraws() { draws += 1; }										//Inline function
-	void setLosses() { losses += 1; }									//Inline function
-	void setWins() { wins += 1; }										//Inline function
-	void setPlayerNum(unsigned int number) { playerNumber = number; }	//Inline function
-
-	unsigned int returnSum() const;
-	unsigned int returnThatCard(unsigned int i, unsigned int whichHand = 0) const;
-};
+		//SETTERS
+		void setDraws() { draws += 1; }										//Inline function
+		void setLosses() { losses += 1; }									//Inline function
+		void setPlayerClassError() { playerClassError = 1; }				//Inline function
+		void setWins() { wins += 1; }										//Inline function
+		void setPlayerNum(unsigned int number) { playerNumber = number; }	//Inline function
+	};
+}
 
 #endif // !BasePlayer_H
