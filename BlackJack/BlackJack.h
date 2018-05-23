@@ -22,27 +22,31 @@
 * > Print final score(s).
 */
 
-class BlackJack {
-private:
-	bool dealerContinue;
-	bool errorBlackJack;
-	unsigned int currentCard;
-	unsigned int currentPlayerSum;
-	unsigned int dealerSum;
-	unsigned int highestPlayerHand;
-	unsigned int playersBusted;
-	unsigned int playerHit21;
-	
-	CARDDECK::CardDeck deck;
-	std::vector<BJPlayer> playerList;
-	std::vector< std::vector <unsigned int> > * cardDeck;
- 
-	void dealerTurn(BJPlayer & dealer, unsigned int & currentCard);
-	void yourTurn(BJPlayer & currentPlayer, unsigned int & currentCard);
+namespace BLACKJACK
+{
+	class BlackJack {
+	private:
+		bool dealerContinue;
+		bool errorBlackJack;
+		unsigned int currentCard;
+		unsigned int currentPlayerSum;
+		unsigned int dealerSum;
+		unsigned int highestPlayerHand;
+		unsigned int playersBusted;
+		unsigned int playerHit21;
 
-public:
-	BlackJack();
-	~BlackJack();
-	bool checkError() { return errorBlackJack; }								//Inline function
-};
+		CARDDECK::CardDeck deck;
+		std::vector<BJPLAYER::BJPlayer> playerList;
+		std::vector< std::vector <unsigned int> > * cardDeck;
+
+		void dealerTurn(BJPLAYER::BJPlayer & dealer, unsigned int & currentCard);
+		void yourTurn(BJPLAYER::BJPlayer & currentPlayer, unsigned int & currentCard);
+
+	public:
+		BlackJack();
+		~BlackJack();
+		bool checkError() { return errorBlackJack; }								//Inline function
+	};
+}
+
 #endif // !BlackJack_H

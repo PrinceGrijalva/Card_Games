@@ -25,35 +25,38 @@ namespace
 }
 
 
-class BasePlayer
+namespace BASEPLAYER
 {
-private:
+	class BasePlayer
+	{
+	private:
 
-	unsigned int ai;
-	mutable unsigned int playerClassError;
-	unsigned int playerNumber;
-	unsigned int draws;
-	unsigned int losses;
-	unsigned int wins;
+		unsigned int ai;
+		mutable unsigned int playerClassError;
+		unsigned int playerNumber;
+		unsigned int draws;
+		unsigned int losses;
+		unsigned int wins;
 
-public:
-	BasePlayer(unsigned int playerType = 0);
-	virtual ~BasePlayer();
+	public:
+		BasePlayer(unsigned int playerType = 0);
+		virtual ~BasePlayer();
 
-	//GETTERS
-	unsigned int getDraws() const { return draws; }						//Inline function
-	unsigned int getLosses() const { return losses; }					//Inline function
-	unsigned int getWins() const { return wins; }						//Inline function
-	unsigned int getPlayerNum() const { return playerNumber; }			//Inline function
+		//GETTERS
+		unsigned int getDraws() const { return draws; }						//Inline function
+		unsigned int getLosses() const { return losses; }					//Inline function
+		unsigned int getWins() const { return wins; }						//Inline function
+		unsigned int getPlayerNum() const { return playerNumber; }			//Inline function
 
-	virtual void playerReset() = 0;
+		virtual void playerReset() = 0;
 
-	//SETTERS
-	void setDraws() { draws += 1; }										//Inline function
-	void setLosses() { losses += 1; }									//Inline function
-	void setPlayerClassError() { playerClassError = 1; }				//Inline function
-	void setWins() { wins += 1; }										//Inline function
-	void setPlayerNum(unsigned int number) { playerNumber = number; }	//Inline function
-};
+		//SETTERS
+		void setDraws() { draws += 1; }										//Inline function
+		void setLosses() { losses += 1; }									//Inline function
+		void setPlayerClassError() { playerClassError = 1; }				//Inline function
+		void setWins() { wins += 1; }										//Inline function
+		void setPlayerNum(unsigned int number) { playerNumber = number; }	//Inline function
+	};
+}
 
 #endif // !BasePlayer_H
