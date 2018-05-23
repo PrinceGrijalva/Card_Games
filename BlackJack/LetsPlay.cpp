@@ -36,7 +36,7 @@ namespace LETSPLAY
 				//PROGRAM_START------------------------
 				if (1 == numberOfGame)
 				{	//Black Jack selected:
-					BlackJack gameOn;
+					BLACKJACK::BlackJack gameOn;
 					error = gameOn.checkError();
 				}
 				else if (2 == numberOfGame)
