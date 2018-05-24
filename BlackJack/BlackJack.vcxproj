@@ -153,7 +153,6 @@
     <ClCompile Include="DeckShuffle.cpp" />
     <ClCompile Include="LetsPlay.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ValidInput.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +162,6 @@
     <ClInclude Include="CardDeck.h" />
     <ClInclude Include="DeckShuffle.h" />
     <ClInclude Include="LetsPlay.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="ValidInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

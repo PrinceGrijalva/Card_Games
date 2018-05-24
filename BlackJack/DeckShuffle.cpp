@@ -36,7 +36,7 @@ namespace DECKSHUFFLE
 				//Do not shuffle deck.
 			}
 			//Print deck out to check that it's shuffled.
-			deck.printDeck();
+			//deck.printDeck();
 		}
 	}
 
