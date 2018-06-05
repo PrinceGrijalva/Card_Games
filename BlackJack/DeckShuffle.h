@@ -5,7 +5,8 @@
 #include "ValidInput.h"
 
 #include <stdlib.h>     
-#include <time.h>       
+#include <time.h>     
+#include <stdexcpt.h>
 
 
 /*
@@ -20,7 +21,6 @@ namespace DECKSHUFFLE
 	{
 	private:
 		std::vector< std::vector <unsigned int> > * cardDeck;
-		unsigned int deckShuffleError;
 		unsigned int cardSize;
 
 		void splitDeck(unsigned int splitsParam = 1);
@@ -29,7 +29,6 @@ namespace DECKSHUFFLE
 	public:
 		explicit DeckShuffle(CARDDECK::CardDeck & deck);
 		DeckShuffle();
-		unsigned int returnError() const { return deckShuffleError; }				//Inline function, Getter
 		void shuffleDeck();
 	};
 }

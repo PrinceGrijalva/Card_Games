@@ -5,13 +5,10 @@ namespace DECKSHUFFLE
 	//Constructor; cardDeck to point to data of deck for use in the DeckShuffle function.
 	DeckShuffle::DeckShuffle(CARDDECK::CardDeck & deck)
 	{
-		//This is an error flag for use in BlackJack class.
-		deckShuffleError = 0;
 		if (0 == deck.getTotalCards())
 		{
-			std::cout << "cardDeck ERROR: cardDeck was default constructed to empty." << std::endl;
-			//Set error flag so program does not continue as normal.
-			deckShuffleError = 1;
+			//Throw out exception for domain error because a deck of 0 shouldn't have happened.
+			throw std::domain_error("CardDeck ERROR: CardDeck was default constructed to empty.\n");
 		}
 		else if (1 == deck.getTotalCards())
 		{
@@ -44,8 +41,7 @@ namespace DECKSHUFFLE
 	DeckShuffle::DeckShuffle()
 	{
 		//Should not be using default constructor because there is no deck to shuffle
-		//and error set to 1.
-		deckShuffleError = 1;
+		throw std::logic_error("DeckShuffle error: DeckShuffle was default constructed to nothing.");
 	}
 
 	//Shuffle a deck that is being used by using functions in this class.
@@ -88,9 +84,7 @@ namespace DECKSHUFFLE
 		//Figure out the number of splits to do or if there is an error.
 		if (splitsParam < 0)
 		{
-			std::cout << "splitsParam ERROR: negative number" << std::endl << std::endl;
-			splitsParam = 0;
-			deckShuffleError = 1;
+			throw std::domain_error("DeckShuffle ERROR: splitsParam variable = negative number");
 		}
 		else if (0 == splitsParam)
 		{
@@ -110,7 +104,7 @@ namespace DECKSHUFFLE
 		}
 
 		//Continue if cardSize is managable and there are no errors from splitParam; 0 case is handled by constructor.
-		if (cardSize > 1 && 0 == deckShuffleError)
+		if (cardSize > 1)
 		{
 			//New vector holding split Deck intialized to all 0s.
 			std::vector< std::vector <unsigned int> > splitDeck(cardSize, std::vector<unsigned int>(3, 0));
