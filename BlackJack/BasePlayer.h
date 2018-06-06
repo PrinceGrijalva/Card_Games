@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 
 /*
 * BasePlayer class is meant to function as the paradigm for all player classes in any game which is to 
@@ -32,7 +33,6 @@ namespace BASEPLAYER
 	private:
 
 		unsigned int ai;
-		mutable unsigned int playerClassError;
 		unsigned int playerNumber;
 		unsigned int draws;
 		unsigned int losses;
@@ -53,7 +53,6 @@ namespace BASEPLAYER
 		//SETTERS
 		void setDraws() { draws += 1; }										//Inline function
 		void setLosses() { losses += 1; }									//Inline function
-		void setPlayerClassError() { playerClassError = 1; }				//Inline function
 		void setWins() { wins += 1; }										//Inline function
 		void setPlayerNum(unsigned int number) { playerNumber = number; }	//Inline function
 	};

@@ -8,7 +8,7 @@ namespace DECKSHUFFLE
 		if (0 == deck.getTotalCards())
 		{
 			//Throw out exception for domain error because a deck of 0 shouldn't have happened.
-			throw std::domain_error("CardDeck ERROR: CardDeck was default constructed to empty.\n");
+			throw std::domain_error("DeckShuffle > CardDeck ERROR: CardDeck was default constructed to empty.");
 		}
 		else if (1 == deck.getTotalCards())
 		{
@@ -16,45 +16,39 @@ namespace DECKSHUFFLE
 		}
 		else
 		{
-			VALIDINPUT::ValidInput validate;
 
 			//cardDeck = address of deck; cardDeck is a ptr to CardDeck.
 			cardDeck = deck.getVectorDeck();
 			cardSize = cardDeck->size();
-
-			std::cout << "Would you like to shuffle the deck?  Y/N" << std::endl;
-
-			if (validate.validStrYesNo())
-			{
-				shuffleDeck();
-			}
-			else
-			{
-				//Do not shuffle deck.
-			}
-			//Print deck out to check that it's shuffled.
-			//deck.printDeck();
 		}
 	}
 
 	//Default Constructor
 	DeckShuffle::DeckShuffle()
 	{
-		//Should not be using default constructor because there is no deck to shuffle
-		throw std::logic_error("DeckShuffle error: DeckShuffle was default constructed to nothing.");
+		//Empty, nothing to do
+		cardDeck = nullptr;
+		cardSize = 0;
 	}
 
 	//Shuffle a deck that is being used by using functions in this class.
 	void DeckShuffle::shuffleDeck()
 	{
-		splitDeck();
-		zipperShuffle();
-		splitDeck();
-		zipperShuffle();
-		zipperShuffle();
-		splitDeck();
-		zipperShuffle();
-		splitDeck();
+		if (cardDeck == nullptr)
+		{
+			throw std::logic_error("DeckShuffle > shuffleDeck() ERROR: DeckShuffle was left on default construction.");
+		}
+		else
+		{
+			splitDeck();
+			zipperShuffle();
+			splitDeck();
+			zipperShuffle();
+			zipperShuffle();
+			splitDeck();
+			zipperShuffle();
+			splitDeck();
+		}
 		return;
 	}
 
@@ -84,7 +78,7 @@ namespace DECKSHUFFLE
 		//Figure out the number of splits to do or if there is an error.
 		if (splitsParam < 0)
 		{
-			throw std::domain_error("DeckShuffle ERROR: splitsParam variable = negative number");
+			throw std::domain_error("DeckShuffle > splitDeck() ERROR: splitsParam variable = negative number");
 		}
 		else if (0 == splitsParam)
 		{

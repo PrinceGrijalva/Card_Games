@@ -36,7 +36,7 @@ namespace BLACKJACK
 				else if (1 == numOfDecks || 4 == numOfDecks)
 				{
 					// = operator use
-					//deck = CARDDECK::CardDeck(numOfDecks);
+					deck = CARDDECK::CardDeck(numOfDecks);
 					break;
 				}
 				else
@@ -73,6 +73,12 @@ namespace BLACKJACK
 			std::cout << "Unforseen ERROR" << std::endl;
 			throw;
 		}
+
+		//Deck should always be shuffled first
+		prep.shuffleDeck();
+		//Print deck out to check that it's shuffled.
+		//deck.printDeck();
+
 		//Sets up the current card to look at as 0 in vector.
 		currentCard = 0;
 		//Initialize cardDeck as the vector of vectors of unsigned ints for easier access

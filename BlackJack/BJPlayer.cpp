@@ -30,12 +30,15 @@ namespace BJPLAYER
 		{
 			handOneSum += 10;
 		}
-		//There was an error
+		//There was an error; this was build by help from Stack Overflow--
+		//https://stackoverflow.com/questions/22753328/c-error-expression-must-have-integral-or-enum-type-getting-this-from-a-s
 		else
 		{
-			setPlayerClassError();
-			std::cout << "ERROR in countCard:" << handOne[handOne.size() - 1][2]
-				<< " card value is beyond 0 - 12" << std::endl << std::endl;
+			std::ostringstream output;
+			output << "BJPlayer > countCard() ERROR:" << handOne[handOne.size() - 1][2] <<
+				" card value is beyond 0 - 12";
+			std::string errorMsg = output.str();
+			throw std::domain_error(errorMsg);
 		}
 
 		//Change the value of an ace if exists and will set hand sum to be over 21
@@ -68,8 +71,11 @@ namespace BJPLAYER
 			}
 			else
 			{
-				//INCLUDE ERROR CHECKING
-				std::cout << "Something wrong happened while inserting card into hand.";
+				std::ostringstream output;
+				output << "BJPlayer > insertCardToHand() ERROR: Hand " 
+					<< whichHand << " does not exist.";
+				std::string errorMsg = output.str();
+				throw std::domain_error(errorMsg);
 			}
 		}
 		return;
@@ -120,9 +126,11 @@ namespace BJPLAYER
 		}
 		else
 		{
-			//FIX THIS TO USE SOME KIND OF ERROR CHECKING////////////////////-------------------
-			//setPlayerClassError();
-			std::cout << "Something went wrong when printing out this hand." << std::endl;
+			std::ostringstream output;
+			output << "BJPlayer > printHand() ERROR: Hand "
+				<< whichHand << " does not exist.";
+			std::string errorMsg = output.str();
+			throw std::domain_error(errorMsg);
 		}
 		std::cout << std::endl;
 		return;
@@ -147,10 +155,11 @@ namespace BJPLAYER
 		}
 		else
 		{
-			//FIX THIS TO USE SOME KIND OF ERROR CHECKING////////////////////-------------------
-			//playerClassError = 1;
-			std::cout << "Something wrong happened when returning that card.";
-			return 0;
+			std::ostringstream output;
+			output << "BJPlayer > returnThatCard() ERROR: Hand "
+				<< whichHand << " does not exist.";
+			std::string errorMsg = output.str();
+			throw std::domain_error(errorMsg);
 		}
 	}
 }
