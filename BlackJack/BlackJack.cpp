@@ -7,7 +7,6 @@ namespace BLACKJACK
 	{
 		//INITIALIZATION------------------------------
 		dealerSum = 0;
-		errorBlackJack = false;
 		playersBusted = 0;
 		currentPlayerSum = 0;
 		unsigned int numOfDecks = 0;
@@ -18,6 +17,7 @@ namespace BLACKJACK
 		std::cout << std::endl << "Welcome to BlackJack!" << std::endl << std::endl;
 		std::cout << "Would you like there to be 1 deck or 4 decks?" << std::endl;
 
+		//Loop until acceptable number is found
 		while (true)
 		{
 			//This can be opened up to include any number of decks; would suggest at most a 2 digit number of decks
@@ -30,11 +30,12 @@ namespace BLACKJACK
 				//Use user input to create the proper deck object
 				if (0 == numOfDecks)
 				{
-					std::cout << "Cannot have 0 decks. Enter a different 2 digit number." << std::endl 
+					std::cout << "Cannot have 0 decks. Enter a different 2 digit number." << std::endl
 						<< std::endl;
 				}
 				else if (1 == numOfDecks || 4 == numOfDecks)
 				{
+					// = operator use
 					deck = CARDDECK::CardDeck(numOfDecks);
 					break;
 				}
@@ -45,8 +46,16 @@ namespace BLACKJACK
 			}
 		}
 
-		//This creates an object of the Deckshuffle class and then shuffles the cards 
-		DECKSHUFFLE::DeckShuffle prep(deck);
+		//This creates an object of the Deckshuffle class by way of default constructor.
+		DECKSHUFFLE::DeckShuffle prep;
+		// = operator use; Shuffle the deck
+		prep = DECKSHUFFLE::DeckShuffle(deck);
+
+		//Deck should always be shuffled first
+		prep.shuffleDeck();
+		//Print deck out to check that it's shuffled.
+		//deck.printDeck();
+
 		//Sets up the current card to look at as 0 in vector.
 		currentCard = 0;
 		//Initialize cardDeck as the vector of vectors of unsigned ints for easier access
@@ -64,7 +73,7 @@ namespace BLACKJACK
 
 		//GAME BEGINS---------------------------------
 		//Game continues as long as player wishes it to and there wasn't an error
-		while (gameContinue == true && 0 == prep.returnError())
+		while (gameContinue == true)
 		{
 			//Reset these values everytime a new game starts
 			playersBusted = 0;
@@ -72,51 +81,50 @@ namespace BLACKJACK
 			highestPlayerHand = 0;
 			playerHit21 = 0;
 
-
-		//DEAL OUT CARDS---------------------------------
-		//Deal to every player and print them out
-		//Maybe only print out dealers hand-------------------------------!!!!!
-		for (j = 0; j < playerListSize; j++)
-		{
-			//Insert cards into a players hand to be able to track them
-			playerList[j].insertCardToHand((*cardDeck)[currentCard]);
-			playerList[j].insertCardToHand((*cardDeck)[currentCard + 1]);
-
-			if (playerListSize - 1 == j)
+			//DEAL OUT CARDS---------------------------------
+			//Deal to every player and print them out
+			//Maybe only print out dealers hand-------------------------------!!!!!
+			for (j = 0; j < playerListSize; j++)
 			{
-				//Print out the cards dealt to the dealer.
-				std::cout << "DEALER's HAND: " << std::endl;
-				playerList[j].printHand(0, 1);
+				//Insert cards into a players hand to be able to track them
+				playerList[j].insertCardToHand((*cardDeck)[currentCard]);
+				playerList[j].insertCardToHand((*cardDeck)[currentCard + 1]);
+
+				if (playerListSize - 1 == j)
+				{
+					//Print out the cards dealt to the dealer.
+					std::cout << "DEALER's HAND: " << std::endl;
+					playerList[j].printHand(0, 1);
+				}
+				else
+				{
+					//Set player number
+					playerList[j].setPlayerNum(j + 1);
+					//Print out the cards dealt to player or ai player.	
+					//std::cout << "PLAYER " << j + 1 << "'s HAND: " << std::endl;
+					//playerList[j].printHand(0, 0);
+				}
+				std::cout << std::endl;
+				//Increment currentCard to reflect the two dealt cards.
+				currentCard += 2;
 			}
-			else
-			{
-				//Set player number
-				playerList[j].setPlayerNum(j + 1);
-				//Print out the cards dealt to player or ai player.	
-				//std::cout << "PLAYER " << j + 1 << "'s HAND: " << std::endl;
-				//playerList[j].printHand(0, 0);
-			}
-			std::cout << std::endl;
-			//Increment currentCard to reflect the two dealt cards.
-			currentCard += 2;
-		}
 
 			std::cout << "-------------------------------------------" << std::endl << std::endl;
 
-		//PLAYER(S) HIT OR STAND---------------------------------
-		//Players go first then the dealer goes
-		for (j = 0; j < playerListSize; j++)
-		{
-			//Dealer's turn
-			if (playerListSize - 1 == j)
+			//PLAYER(S) HIT OR STAND---------------------------------
+			//Players go first then the dealer goes
+			for (j = 0; j < playerListSize; j++)
 			{
-				if ( (playersBusted == playerListSize - 1 || playerHit21 == playerListSize - 1 )
-					&& playerListSize > 1)
+				//Dealer's turn
+				if (playerListSize - 1 == j)
 				{
-					dealerContinue = false;
-				}
-				dealerTurn(playerList[j], currentCard);
-				currentPlayerSum = playerList[j].returnSum();
+					if ( (playersBusted == playerListSize - 1 || playerHit21 == playerListSize - 1 )
+						&& playerListSize > 1)
+					{
+						dealerContinue = false;
+					}
+					dealerTurn(playerList[j], currentCard);
+					currentPlayerSum = playerList[j].returnSum();
 
 					std::cout << "DEALER TOTAL: ";
 				}
@@ -139,12 +147,12 @@ namespace BLACKJACK
 					}
 					std::cout << "PLAYER" << j + 1 << " TOTAL: ";
 
-				//Check if player has got a natural or hit 21.
-				if (playerList[j].getNatural() || 21 == currentPlayerSum)
-				{
-					playerHit21 += 1;
+					//Check if player has got a natural or hit 21.
+					if (playerList[j].getNatural() || 21 == currentPlayerSum)
+					{
+						playerHit21 += 1;
+					}
 				}
-			}
 
 				//Let the player(s) and dealer know their total(s)
 				if (21 == currentPlayerSum)
@@ -168,106 +176,95 @@ namespace BLACKJACK
 				}
 			}
 
-		//Set the dealer's sum to be checked against player's sums
-		dealerSum = playerList[playerListSize - 1].returnSum();
+			//Set the dealer's sum to be checked against player's sums
+			dealerSum = playerList[playerListSize - 1].returnSum();
 
-		//RESULTS---------------------------------
-		//Check the users against the dealer and determine if they win or lose
-		for (j = 0; j < playerListSize - 1; j++)
-		{
-			//Set player hand sum once and check it multiple times.
-			currentPlayerSum = playerList[j].returnSum();
-			//In this case the user will always lose as they have busted;gone over 21
-			if (currentPlayerSum > 21)
+			//RESULTS---------------------------------
+			//Check the users against the dealer and determine if they win or lose
+			for (j = 0; j < playerListSize - 1; j++)
 			{
-				std::cout << "DEALER WINS over PLAYER" << j + 1 << std::endl;
-				playerList[j].setLosses();
-			}
-			//In this case the user can win or draw with dealer
-			else if (21 == currentPlayerSum)
-			{
-				if (playerList[j].getNatural())
-				{
-					std::cout << "PLAYER" << j + 1 << "'S NATURAL WINS over DEALER" << std::endl;
-					playerList[j].setWins();
-				}
-				else
-				{
-					if (21 == dealerSum)
-					{
-						std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
-						playerList[j].setDraws();
-					}
-					else
-					{
-						std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
-						playerList[j].setWins();
-					}
-				}
-			}
-			//In this case the player can win, draw, or lose to dealer
-			else
-			{
-				if (dealerSum > 21 || currentPlayerSum > dealerSum)
-				{
-					std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
-					playerList[j].setWins();
-				}
-				else if (currentPlayerSum == dealerSum)
-				{
-					std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
-					playerList[j].setDraws();
-				}
-				//playerSum < dealerSum---------------------------------//////////////maybe error?
-				else
+				//Set player hand sum once and check it multiple times.
+				currentPlayerSum = playerList[j].returnSum();
+				//In this case the user will always lose as they have busted;gone over 21
+				if (currentPlayerSum > 21)
 				{
 					std::cout << "DEALER WINS over PLAYER" << j + 1 << std::endl;
 					playerList[j].setLosses();
 				}
+				//In this case the user can win or draw with dealer
+				else if (21 == currentPlayerSum)
+				{
+					if (playerList[j].getNatural())
+					{
+						std::cout << "PLAYER" << j + 1 << "'S NATURAL WINS over DEALER" << std::endl;
+						playerList[j].setWins();
+					}
+					else
+					{
+						if (21 == dealerSum)
+						{
+							std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
+							playerList[j].setDraws();
+						}
+						else
+						{
+							std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
+							playerList[j].setWins();
+						}
+					}
+				}
+				//In this case the player can win, draw, or lose to dealer
+				else
+				{
+					if (dealerSum > 21 || currentPlayerSum > dealerSum)
+					{
+						std::cout << "PLAYER" << j + 1 << " WINS over DEALER" << std::endl;
+						playerList[j].setWins();
+					}
+					else if (currentPlayerSum == dealerSum)
+					{
+						std::cout << "PLAYER" << j + 1 << " DRAWS with DEALER" << std::endl;
+						playerList[j].setDraws();
+					}
+					//playerSum < dealerSum---------------------------------//////////////maybe error?
+					else
+					{
+						std::cout << "DEALER WINS over PLAYER" << j + 1 << std::endl;
+						playerList[j].setLosses();
+					}
+				}
+				//All human players should be reset
+				playerList[j].playerReset();
 			}
-			//All human players should be reset
-			playerList[j].playerReset();
-		}
 
-		//Reset the dealer as well, previously missed this step!
-		playerList[playerListSize - 1].playerReset();
+			//Reset the dealer as well, previously missed this step!
+			playerList[playerListSize - 1].playerReset();
 
-		//PLAY AGAIN?---------------------------------
-		std::cout << std::endl;
-		//Reset userInput just in case
-		bool answer = true;
-		std::cout << "Play Again?  Enter y or n: " << std::endl;
-		//USER_INPUT3------------------------------
-		answer = validate.validStrYesNo();
-		if (answer)
-		{
-			gameContinue = true;
-			//If there is one deck or when using 4 decks and only 52 cards remain reshuffle the
-			//whole lot of cards. The choice of less than 52 cards remaining is arbitrary;
-			//can be changed.
-			if (52 == deck.getTotalCards() || currentCard > deck.getTotalCards() - 52)
+			//PLAY AGAIN?---------------------------------
+			std::cout << std::endl;
+			//Reset userInput just in case
+			bool answer = true;
+			std::cout << "Play Again?  Enter y or n: " << std::endl;
+			//USER_INPUT3------------------------------
+			answer = validate.validStrYesNo();
+			if (answer)
 			{
-				currentCard = 0;
-				prep.shuffleDeck();
+				gameContinue = true;
+				//If there is one deck or when using 4 decks and only 52 cards remain reshuffle the
+				//whole lot of cards. The choice of less than 52 cards remaining is arbitrary;
+				//can be changed.
+				if (52 == deck.getTotalCards() || currentCard > deck.getTotalCards() - 52)
+				{
+					currentCard = 0;
+					prep.shuffleDeck();
+				}
+			}
+			else 
+			{
+				gameContinue = false;
 			}
 		}
-		else 
-		{
-			gameContinue = false;
-		}
-	}
 
-	if (0 == deck.getTotalCards())
-	{
-		std::cout << "deckOfCards ERROR; deckOfCards is 0" << std::endl;
-		errorBlackJack = true;
-	}
-	else if (1 == prep.returnError())
-	{
-		errorBlackJack = true;
-	}
-	else
-	{
 		//FINAL SCORE-----------------------------------
 		for (j = 0; j < playerListSize - 1; j++)
 		{
@@ -277,7 +274,6 @@ namespace BLACKJACK
 		}
 		std::cout << "-------------------------------------------" << std::endl << std::endl;
 	}
-}
 
 	BlackJack::~BlackJack()
 	{
@@ -304,6 +300,7 @@ namespace BLACKJACK
 		while (dealerSum < 17 && dealerContinue && dealerSum <= highestPlayerHand)
 		{
 			dealer.insertCardToHand((*cardDeck)[currentCard]);
+
 			currentCard += 1;
 			dealer.printHand();
 			dealerSum = dealer.returnSum();
@@ -337,6 +334,7 @@ namespace BLACKJACK
 			if (answer)
 			{
 				currentPlayer.insertCardToHand((*cardDeck)[currentCard]);
+
 				currentCard += 1;
 				currentPlayer.printHand();
 				curPlayerSum = currentPlayer.returnSum();

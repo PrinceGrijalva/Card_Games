@@ -6,7 +6,6 @@
 #include "BJPlayer.h"
 #include "ValidInput.h"
 
-#include <sstream>
 
 /*
 * This class serves the purpose of setting up a game of black jack. 
@@ -27,7 +26,6 @@ namespace BLACKJACK
 	class BlackJack {
 	private:
 		bool dealerContinue;
-		bool errorBlackJack;
 		unsigned int currentCard;
 		unsigned int currentPlayerSum;
 		unsigned int dealerSum;
@@ -45,7 +43,6 @@ namespace BLACKJACK
 	public:
 		BlackJack();
 		~BlackJack();
-		bool checkError() { return errorBlackJack; }								//Inline function
 	};
 }
 
