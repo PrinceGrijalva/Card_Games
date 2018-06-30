@@ -78,7 +78,7 @@ namespace DECKSHUFFLE
 		//Figure out the number of splits to do or if there is an error.
 		if (splitsParam < 0)
 		{
-			throw std::domain_error("DeckShuffle > splitDeck() ERROR: splitsParam variable = negative number");
+			throw std::domain_error("DeckShuffle > splitDeck() ERROR: splitsParam variable = negative number.");
 		}
 		else if (0 == splitsParam)
 		{

@@ -70,7 +70,7 @@ namespace LETSPLAY
 		}
 		catch (std::runtime_error & e)
 		{
-			std::cout << std::endl << "Sorry there was a runtime error." << std::endl;
+			std::cout << e.what() << std::endl << "Sorry there was a runtime error." << std::endl;
 		}
 		catch (...)
 		{

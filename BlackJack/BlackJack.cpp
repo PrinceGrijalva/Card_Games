@@ -30,7 +30,7 @@ namespace BLACKJACK
 				//Use user input to create the proper deck object
 				if (0 == numOfDecks)
 				{
-					std::cout << "Cannot have 0 decks. Enter a different 2 digit number." << std::endl 
+					std::cout << "Cannot have 0 decks. Enter a different 2 digit number." << std::endl
 						<< std::endl;
 				}
 				else if (1 == numOfDecks || 4 == numOfDecks)
@@ -48,31 +48,8 @@ namespace BLACKJACK
 
 		//This creates an object of the Deckshuffle class by way of default constructor.
 		DECKSHUFFLE::DeckShuffle prep;
-		try
-		{
-			// = operator use; Shuffle the deck
-			prep = DECKSHUFFLE::DeckShuffle(deck);
-		}
-		catch (std::domain_error & e)
-		{
-			std::cout << e.what() << std::endl;
-			throw;
-		}
-		catch (std::invalid_argument & e)
-		{
-			std::cout << e.what() << std::endl;
-			throw;
-		}
-		catch (std::exception & e)
-		{
-			std::cout << e.what() << std::endl;
-			throw;
-		}
-		catch (...)
-		{
-			std::cout << "Unforseen ERROR" << std::endl;
-			throw;
-		}
+		// = operator use; Shuffle the deck
+		prep = DECKSHUFFLE::DeckShuffle(deck);
 
 		//Deck should always be shuffled first
 		prep.shuffleDeck();
@@ -323,6 +300,7 @@ namespace BLACKJACK
 		while (dealerSum < 17 && dealerContinue && dealerSum <= highestPlayerHand)
 		{
 			dealer.insertCardToHand((*cardDeck)[currentCard]);
+
 			currentCard += 1;
 			dealer.printHand();
 			dealerSum = dealer.returnSum();
@@ -356,6 +334,7 @@ namespace BLACKJACK
 			if (answer)
 			{
 				currentPlayer.insertCardToHand((*cardDeck)[currentCard]);
+
 				currentCard += 1;
 				currentPlayer.printHand();
 				curPlayerSum = currentPlayer.returnSum();

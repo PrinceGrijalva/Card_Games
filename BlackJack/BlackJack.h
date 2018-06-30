@@ -6,7 +6,6 @@
 #include "BJPlayer.h"
 #include "ValidInput.h"
 
-#include <sstream>
 
 /*
 * This class serves the purpose of setting up a game of black jack. 
