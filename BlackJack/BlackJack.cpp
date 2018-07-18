@@ -194,7 +194,7 @@ namespace BLACKJACK
 				//In this case the user can win or draw with dealer
 				else if (21 == currentPlayerSum)
 				{
-					if (playerList[j].getNatural())
+					if (playerList[j].getNatural() && !(playerList[playerListSize - 1].getNatural()) )
 					{
 						std::cout << "PLAYER" << j + 1 << "'S NATURAL WINS over DEALER" << std::endl;
 						playerList[j].setWins();
