@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
+#include <time.h>  
 
 /*
 * CardDeck class is meant to define what the <values> of each card is held within a card vector, how large the size 
