@@ -162,4 +162,42 @@ namespace BJPLAYER
 			throw std::domain_error(errorMsg);
 		}
 	}
+
+	//Getter; returns the value of a card
+	unsigned int BJPlayer::returnThatValue(unsigned int i, unsigned int whichHand) const
+	{
+		unsigned int value = 0;
+		if (0 == whichHand)
+		{
+			value = handOne[i][2];
+		}
+		else if (1 == whichHand)
+		{
+			value = handTwo[i][2];
+		}
+		else
+		{
+			std::ostringstream output;
+			output << "BJPlayer > returnThatCard() ERROR: Hand "
+				<< whichHand << " does not exist.";
+			std::string errorMsg = output.str();
+			throw std::domain_error(errorMsg);
+		}
+
+		value += 2;
+		if (value >= 10 && value <= 13)
+		{
+			value = 10;
+		}
+		else if (14 == value)
+		{
+			value = 11;
+		}
+		else
+		{
+			//Nothing
+		}
+
+		return value;
+	}
 }

@@ -124,14 +124,20 @@ namespace BLACKJACK
 						dealerContinue = false;
 					}
 					dealerTurn(playerList[j], currentCard);
-					currentPlayerSum = playerList[j].returnSum();
 
+					currentPlayerSum = playerList[j].returnSum();
 					std::cout << "DEALER TOTAL: ";
 				}
 				//Player's turn
 				else
 				{
-					yourTurn(playerList[j], currentCard);
+					//Player goes through with turn only if dealer doesn't have a natural with a 10 showing.
+					if (!playerList[playerListSize - 1].getNatural() || 
+							10 != playerList[playerListSize - 1].returnThatValue(0,0))
+					{
+						yourTurn(playerList[j], currentCard);
+					}
+
 					currentPlayerSum = playerList[j].returnSum();
 					if (currentPlayerSum > 21)
 					{
@@ -145,6 +151,7 @@ namespace BLACKJACK
 					{
 						//NOTHING
 					}
+
 					std::cout << "PLAYER" << j + 1 << " TOTAL: ";
 
 					//Check if player has got a natural or hit 21.

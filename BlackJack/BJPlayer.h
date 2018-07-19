@@ -21,6 +21,7 @@ namespace BJPLAYER
 	public:
 		BJPlayer(unsigned int playerType = 0);
 
+
 		//GETTERS
 		bool getNatural() const { return natural; }							//Inline function
 
@@ -29,9 +30,10 @@ namespace BJPLAYER
 		void printHand(unsigned int whichHand = 0, unsigned int aiOrNot = 0) const;
 		//SETTERS
 		void setNatural() { natural = true; }								//Inline function
-
+	
 		unsigned int returnSum() const;
 		unsigned int returnThatCard(unsigned int i, unsigned int whichHand = 0) const;
+		unsigned int returnThatValue(unsigned int i, unsigned int whichHand = 0) const;
 	};
 }
 
