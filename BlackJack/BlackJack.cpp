@@ -112,7 +112,9 @@ namespace BLACKJACK
 			std::cout << "-------------------------------------------" << std::endl << std::endl;
 
 			//PLAYER(S) HIT OR STAND---------------------------------
-			//Players go first then the dealer goes
+			//Players go first then the dealer goes.
+			//May need to change RULE2 in the inner if check below. Dealer may need to try to match player
+			//when they hit 21.--------------!!!!!!!!!!!!!!!!
 			for (j = 0; j < playerListSize; j++)
 			{
 				//Dealer's turn
